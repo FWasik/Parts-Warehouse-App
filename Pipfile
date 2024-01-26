@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 django = "*"
+djongo = "==1.3.6"
+pytz = "*"
+pymongo = "==3.12.1"
+python-dotenv = "*"
 
 [dev-packages]
 
