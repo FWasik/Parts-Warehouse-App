@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Part, Category
 
 
@@ -31,6 +32,18 @@ class PartSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Values must be integers')
 
         return value
+
+    def validate_category(self, value):
+        try:
+            category = Category.objects.get(name=value)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError('There is not corresponding category')
+
+        if not category.parent_name:
+            raise serializers.ValidationError('Cannot assign to base category')
+
+        else:
+            return value
 
 
 class CategorySerializer(serializers.ModelSerializer):
