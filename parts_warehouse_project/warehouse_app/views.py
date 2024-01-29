@@ -34,9 +34,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
         parts_assigned = Part.objects.filter(category=category.name)
 
         if parts_assigned:
-            raise CustomException('Cannot delete category that is assigned to parts', 400)
+            raise CustomException(
+                "Cannot delete category that is assigned to parts", 400
+            )
 
         return super().destroy(request, args, kwargs)
-
-
-
