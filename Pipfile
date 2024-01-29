@@ -10,6 +10,8 @@ pytz = "*"
 pymongo = "==3.12.1"
 python-dotenv = "*"
 django-rest-framework = "*"
+black = "*"
+django-filter = "*"
 
 [dev-packages]
 
