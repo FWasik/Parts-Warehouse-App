@@ -1,9 +1,9 @@
-from rest_framework import serializers
-from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.serializers import ValidationError
 from .models import Part, Category
+from rest_framework_mongoengine import serializers
 
 
-class PartSerializer(serializers.ModelSerializer):
+class PartSerializer(serializers.DocumentSerializer):
     class Meta:
         model = Part
         fields = "__all__"
@@ -13,16 +13,29 @@ class PartSerializer(serializers.ModelSerializer):
         location = attrs.get("location")
 
         if (not quantity and location) or (quantity and not location):
-            raise serializers.ValidationError(
-                "Quantity and location must be given at the same time if one of them occurs"
+            raise ValidationError(
+                {
+                    "messages": "Quantity and location must be given at the same time if one of them occurs"
+                }
             )
 
-        if sum(location.values()) != quantity:
-            raise serializers.ValidationError(
-                "Sum of parts in locations does not equal quantity"
+        if quantity and location and sum(location.values()) != quantity:
+            raise ValidationError(
+                {"messages": "Sum of parts in locations does not equal quantity"}
             )
 
         return super().validate(attrs)
+
+    def validate_category(self, value):
+        category = Category.objects(name=value).first()
+
+        if not category:
+            raise ValidationError("There is no given category")
+
+        if not category.parent_name:
+            raise ValidationError("Cannot assign to base category")
+
+        return value
 
     def validate_location(self, value):
         allowed_keys = {"room", "bookcase", "shelf", "cuvee", "column", "row"}
@@ -40,46 +53,43 @@ class PartSerializer(serializers.ModelSerializer):
             if not isinstance(value, int) or value < 0
         ]
         if invalid_values:
-            errors.append("Values must be positive integers")
+            errors.append("Values must be greater than or equal to 0")
 
         if errors:
-            raise serializers.ValidationError(errors)
-
-        return value
-
-    def validate_serial_number(self, value):
-        if Part.objects.filter(serial_number=value):
-            raise serializers.ValidationError(
-                "There is already a part with this serial number"
-            )
-
-        return value
-
-    def validate_category(self, value):
-        try:
-            category = Category.objects.get(name=value)
-        except ObjectDoesNotExist:
-            raise serializers.ValidationError("There is no given category")
-
-        if not category.parent_name:
-            raise serializers.ValidationError("Cannot assign to base category")
-
-        return value
-
-    def validate_price(self, value):
-        if value < 0:
-            raise serializers.ValidationError("Price cannot be lower than 0")
+            raise ValidationError(errors)
 
         return value
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.DocumentSerializer):
     class Meta:
         model = Category
         fields = "__all__"
 
     def validate_parent_name(self, value):
-        if not Category.objects.filter(name=value):
-            raise serializers.ValidationError("There is no given category")
+        parent_category = Category.objects(name=value).first()
+
+        if not parent_category:
+            raise ValidationError("There is no given parent category")
 
         return value
+
+    def update(self, instance, validated_data):
+        parent_name = validated_data.get("parent_name")
+        errors = {"messages": []}
+
+        if parent_name:
+            if not instance.parent_name:
+                errors.get("messages").append(
+                    "Base category cannot be assigned to existing category"
+                )
+
+            parent_category = Category.objects(name=parent_name).get()
+
+            if parent_category == instance:
+                errors.get("messages").append("Category cannot be its parent")
+
+        if errors:
+            raise ValidationError(errors)
+
+        return super().update(instance, validated_data)

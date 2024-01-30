@@ -12,6 +12,8 @@ python-dotenv = "*"
 django-rest-framework = "*"
 black = "*"
 django-filter = "*"
+mongoengine = "*"
+django-rest-framework-mongoengine = "*"
 
 [dev-packages]
 
