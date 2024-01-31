@@ -2,7 +2,10 @@ from .serializers import PartSerializer, CategorySerializer
 from .models import Part, Category
 from rest_framework.response import Response
 from rest_framework_mongoengine import viewsets, generics
+from rest_framework import status
 import itertools
+import json
+
 
 
 class PartViewSet(viewsets.ModelViewSet):
@@ -29,7 +32,10 @@ class PartSearchView(generics.ListAPIView):
         }
 
         for field, value in filters.items():
-            if value is not None:
+            if value:
+                if field == "location":
+                    value = json.loads(value)
+
                 queryset = queryset.filter(**{f"{field}__icontains": value})
 
         return queryset
@@ -69,7 +75,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
                 {
                     "messages": "Cannot delete category - it or one of its children has a assigned parts"
                 },
-                status=400,
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         for child in children_to_delete:
