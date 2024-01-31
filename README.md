@@ -123,17 +123,17 @@ Numeric and dictionary fields are filtered by exact.
 
 ### Examples
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/1.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/2.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/3.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/4.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/5.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/6.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/7.png">
-
+<br />
 <img src="C:/Users/frane/Desktop/Nowy folder (2)/8.png">
