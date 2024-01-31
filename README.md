@@ -116,18 +116,18 @@ Numeric and dictionary fields are filtered by exact.
 
 
 ### Examples
-![1](C:\Users\frane\Desktop\Nowy folder (2)\1.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/1.png">
 
-![2](C:/Users/frane/Desktop/Nowy folder (2)/2.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/2.png">
 
-![3](C:/Users/frane/Desktop/Nowy folder (2)/3.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/3.png">
 
-![4](C:/Users/frane/Desktop/Nowy folder (2)/4.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/4.png">
 
-![5](C:/Users/frane/Desktop/Nowy folder (2)/5.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/5.png">
 
-![6](C:/Users/frane/Desktop/Nowy folder (2)/6.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/6.png">
 
-![7](C:/Users/frane/Desktop/Nowy folder (2)/7.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/7.png">
 
-![8](C:/Users/frane/Desktop/Nowy folder (2)/8.png)
+<img src="C:/Users/frane/Desktop/Nowy folder (2)/8.png">
