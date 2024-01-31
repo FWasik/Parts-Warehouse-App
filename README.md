@@ -116,7 +116,7 @@ Numeric and dictionary fields are filtered by exact.
 
 
 ### Examples
-![1](C:/Users/frane/Desktop/Nowy folder (2)/1.png)
+![1](C:\Users\frane\Desktop\Nowy folder (2)\1.png)
 
 ![2](C:/Users/frane/Desktop/Nowy folder (2)/2.png)
 
