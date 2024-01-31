@@ -85,15 +85,15 @@ docker run -e DB_NAME=<your_db_name> -e DB_USERNAME=<your_username> -e DB_PASSWO
 ### Endpoints
 A available endpoints are:
 
-For GET (all objects in collection), POST method:
+For GET (all objects in collection), POST methods:
 * http[]()://localhost:8000/api/warehouse/parts/
 * http[]()://localhost:8000/api/warehouse/categories/
 
-For GET (single object), DELETE, PATCH, PUT:
+For GET (single object), DELETE, PATCH, PUT methods:
 * http[]()://localhost:8000/api/warehouse/parts/<part_serial_number>/
 * http[]()://localhost:8000/api/warehouse/categories/<category_name>/
 
-For search endpoint there is one method allowed which is GET:
+For search endpoint there is one method allowed which is GET method:
 * http[]()://localhost:8000/api/warehouse/parts-search/?<field_name>=<value_to_filter>
 
 with any number of fields after which filtering will take place. They must be separated by "&" in endpoint.
@@ -120,20 +120,3 @@ Validation of input data for categories:
 Search endpoint filters parts based on the value for each field. String fields are filtered by containing a given phrase.
 Numeric and dictionary fields are filtered by exact.
 
-
-### Examples
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/1.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/2.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/3.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/4.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/5.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/6.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/7.png">
-<br />
-<img src="C:/Users/frane/Desktop/Nowy folder (2)/8.png">
