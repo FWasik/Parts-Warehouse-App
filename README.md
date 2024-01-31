@@ -9,6 +9,12 @@ The application is also containerized using Docker.
 As a Python framework, I chose the Django Rest Framework, for me the most familiar and best framework for creating RESTful APIs.
 API. As a MongoDB connector, I used mongoengine.
 
+## Table of contents
+* [Requirements](#requirements)
+* [Technologies](#technologies)
+* [Installation](#installation)
+* [Application](#application)
+
 ## Requirements
 Part model:
 - serial_number (str): A unique serial number assigned to each part. 
@@ -75,7 +81,7 @@ Therefore, they must be added directly in container startup command:
 docker run -e DB_NAME=<your_db_name> -e DB_USERNAME=<your_username> -e DB_PASSWORD=<your_password> -e DB_HOST=<your_host> -p 8000:8000  dilreni2137/parts-warehouse-app-web
 ```
 
-## Working app
+## Application
 ### Endpoints
 A available endpoints are:
 
