@@ -67,10 +67,11 @@ class CategorySerializer(serializers.DocumentSerializer):
         fields = "__all__"
 
     def validate_parent_name(self, value):
-        parent_category = Category.objects(name=value).first()
+        if value:
+            parent_category = Category.objects(name=value).first()
 
-        if not parent_category:
-            raise ValidationError("There is no given parent category")
+            if not parent_category:
+                raise ValidationError("There is no given parent category")
 
         return value
 
@@ -89,7 +90,7 @@ class CategorySerializer(serializers.DocumentSerializer):
             if parent_category == instance:
                 errors.get("messages").append("Category cannot be its parent")
 
-        if errors:
+        if errors.get("messages"):
             raise ValidationError(errors)
 
         return super().update(instance, validated_data)
