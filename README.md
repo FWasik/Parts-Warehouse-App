@@ -70,7 +70,7 @@ Most important technologies used:
 
 
 ## Installation:
-To run the application, first of all, you need to download the image from DockerHub. Run this command:
+To run the application, first of all, you need to pull the image from DockerHub. Run this command:
 ```
 docker pull dilreni2137/parts-warehouse-app-web
 ```
