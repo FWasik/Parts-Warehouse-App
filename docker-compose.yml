@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./parts_warehouse_project
+    image: dilreni2137/parts-warehouse-app-web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./parts_warehouse_project/:/app
+    ports:
+      - 8000:8000
+    env_file:
+      - ./parts_warehouse_project/.env
