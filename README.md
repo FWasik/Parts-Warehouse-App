@@ -109,7 +109,7 @@ The input validation for parts is:
 - Cannot be assigned to a base category
 - The values in the location dictionary must not be less than 0.
 - The location dictionary must have valid location names (room, rack, shelf, tray, column, row) as the key.
-- The sum of the values in the location dictionary must be equal to the number of
+- The sum of the values in the location dictionary must be equal to the quantity.
 
 Validation of input data for categories:
 - Name must be unique
