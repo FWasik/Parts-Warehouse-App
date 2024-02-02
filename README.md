@@ -50,8 +50,8 @@ In addition, I added some additional rules for the application to maintain the c
 1. The base category cannot be assigned to an existing category (a problem with the "looping" of categories in the 
 tree and difficulties in deletion.)
 2. A category cannot be its parent
-3. I assumed that in the location field (dictionary), the keys are the names of the locations, and the values represent the number of parts in each location. 
-in each location. Therefore, the sum of the values from the locations must be equal to the quantity.
+3. I assumed that in the location field (dictionary), the keys are the names of the locations, and the values represent
+the number of parts in each location. Therefore, the sum of the values from the locations must be equal to the quantity.
 4. When a category is updated, it is also updated in other categories and parts (just like a name update).
 5. All children are also removed when deleting a specific category. (all down the category tree)
 6. Unique names for categories
@@ -102,20 +102,20 @@ with any number of fields after which filtering will take place. They must be se
 
 The input validation for parts is:
 - All fields are required. 
-- The serial number must be unique
-- A category that does not exist in the database cannot be assigned
-- Quantity must not be less than 0
-- Price must not be less than 0
-- Cannot be assigned to a base category
+- The serial number must be unique.
+- A category that does not exist in the database cannot be assigned.
+- Quantity must not be less than 0.
+- Price must not be less than 0.
+- Cannot be assigned to a base category.
 - The values in the location dictionary must not be less than 0.
 - The location dictionary must have valid location names (room, rack, shelf, tray, column, row) as the key.
 - The sum of the values in the location dictionary must be equal to the quantity.
 
 Validation of input data for categories:
-- Name must be unique
-- Parent must exist in the database
+- Name must be unique.
+- Parent must exist in the database.
 - The category cannot be a parent category for itself.
-- Base category cannot be assigned to an existing category
+- Base category cannot be assigned to an existing category (when updating).
 
 Search endpoint filters parts based on the value for each field. String fields are filtered by containing a given phrase.
 Numeric and dictionary fields are filtered by exact.
