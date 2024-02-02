@@ -81,6 +81,15 @@ Therefore, they must be added directly in container startup command:
 docker run -e DB_NAME=<your_db_name> -e DB_USERNAME=<your_username> -e DB_PASSWORD=<your_password> -e DB_HOST=<your_host> -p 8000:8000  dilreni2137/parts-warehouse-app-web
 ```
 
+### !!! CORRECTION !!! (02.02.2024)
+
+Probably, as I noticed, you can run the container without adding envs to the run command. In that case, use the 
+following command. If there are problems, use the command with envs.
+
+```
+docker run -p 8000:8000 dilreni2137/parts-warehouse-app-web
+```
+
 ## Application
 ### Endpoints
 A available endpoints are:
