@@ -85,7 +85,7 @@ class CategorySerializer(serializers.DocumentSerializer):
                 if not instance.parent_name and instance.is_child(parent_category):
                     raise ValidationError(
                         {
-                            "messages": "Base category cannot be assigned to one of its children"
+                            "messages": "Base category cannot be assigned to one of its descendant"
                         }
                     )
 

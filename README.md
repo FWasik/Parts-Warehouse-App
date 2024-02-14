@@ -38,23 +38,24 @@ name (for Category model) as lookup_field in relevant endpoints.
 2. Ensure that a category cannot be removed if there are parts assigned to it. 
 3. Ensure that a parent category cannot be removed if it has child categories with parts assigned. 
 4. Implement input validation for both collections. 
-5. Pay special atention to the 'location' field in the 'parts' dataset, which includes sections such as 
+5. Pay special attention to the 'location' field in the 'parts' dataset, which includes sections such as 
 room, bookcase, shelf, cuvee, column, row.
 6. Ensure that each part belongs to a category and that a part cannot be in a base category. 
 7. Dockerize the application, ensuring that it can be easily deployed and run in a containerized 
 environment. 
 8. Ensure that the API returns results in JSON format and can be consumed with Postman. 
 
-In addition, I added some additional rules for the application to maintain the consistency of collections in the application:
+In addition, I made up some rules for the application to maintain the consistency of collections in the application:
 
-1. The base category cannot be assigned to an existing category (a problem with the "looping" of categories in the 
-tree and difficulties in deletion.)
-2. A category cannot be its parent
+1. The base category cannot be assigned to its descendant (a problem with the "looping" of categories in the 
+tree and difficulties in deletion).
+2. A category cannot be its parent.
+3. Cannot change category to a base category if there are parts assigned to that category.
 3. I assumed that in the location field (dictionary), the keys are the names of the locations, and the values represent
 the number of parts in each location. Therefore, the sum of the values from the locations must be equal to the quantity.
 4. When a category is updated, it is also updated in other categories and parts (just like a name update).
-5. All children are also removed when deleting a specific category. (all down the category tree)
-6. Unique names for categories
+5. All children are also removed when deleting a specific category. (all down the category tree).
+6. Unique names for categories.
 
 All requirements and rules have been met.
 
@@ -72,13 +73,13 @@ Most important technologies used:
 ## Installation:
 To run the application, first of all, you need to pull the image from DockerHub. Run this command:
 ```
-docker pull dilreni2137/parts-warehouse-app-web
+docker pull dilreni2137/parts-warehouse-app-web:2.0
 ```
 
 Next, the container should be started. For security reasons, I have not included the .env file in the container. 
 Therefore, they must be added directly in container startup command:
 ```
-docker run -e DB_NAME=<your_db_name> -e DB_USERNAME=<your_username> -e DB_PASSWORD=<your_password> -e DB_HOST=<your_host> -p 8000:8000  dilreni2137/parts-warehouse-app-web
+docker run -e DB_NAME=<your_db_name> -e DB_USERNAME=<your_username> -e DB_PASSWORD=<your_password> -e DB_HOST=<your_host> -p 8000:8000  dilreni2137/parts-warehouse-app-web:2.0
 ```
 
 ### !!! CORRECTION !!! (02.02.2024)
@@ -87,7 +88,7 @@ Probably, as I noticed, you can run the container without adding envs to the run
 following command. If there are problems, use the command with envs.
 
 ```
-docker run -p 8000:8000 dilreni2137/parts-warehouse-app-web
+docker run -p 8000:8000 dilreni2137/parts-warehouse-app-web:2.0
 ```
 
 ## Application
@@ -117,14 +118,15 @@ The input validation for parts is:
 - Price must not be less than 0.
 - Cannot be assigned to a base category.
 - The values in the location dictionary must not be less than 0.
-- The location dictionary must have valid location names (room, rack, shelf, tray, column, row) as the key.
+- The location dictionary must have valid location names (room, bookcase, shelf, cuvee, column, row) as the key.
 - The sum of the values in the location dictionary must be equal to the quantity.
 
 Validation of input data for categories:
 - Name must be unique.
 - Parent must exist in the database.
 - The category cannot be a parent category for itself.
-- Base category cannot be assigned to an existing category (when updating).
+- Base category cannot be assigned to descendant (when updating).
+- Cannot change category to a base category if there are parts assigned to that category (when updating).
 
 Search endpoint filters parts based on the value for each field. String fields are filtered by containing a given phrase.
 Numeric and dictionary fields are filtered by exact.
