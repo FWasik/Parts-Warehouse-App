@@ -14,12 +14,21 @@ class Category(Document):
     def can_be_deleted(self, children_to_delete):
         if Part.objects(category=self.name).count() > 0:
             return False
-        for child in Category.objects(parent_name=self.name):
+        for child in Category.objects(parent_name=self.name).filter():
             if not child.can_be_deleted(children_to_delete):
                 return False
 
             children_to_delete.append(child)
         return True
+
+    def is_child(self, category):
+        if category == self:
+            return True
+        for child in Category.objects(parent_name=self.name).filter():
+            if child.is_child(category):
+                return True
+
+        return False
 
 
 class Part(Document):

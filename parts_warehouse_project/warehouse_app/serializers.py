@@ -41,19 +41,16 @@ class PartSerializer(serializers.DocumentSerializer):
         allowed_keys = {"room", "bookcase", "shelf", "cuvee", "column", "row"}
         errors = []
 
-        invalid_keys = set(value.keys()) - allowed_keys
-        if invalid_keys:
+        if set(value.keys()) - allowed_keys:
             errors.append(
                 "Missing correct location (room, bookcase, shelf, cuvee, column, row)"
             )
 
-        invalid_values = [
-            key
-            for key, value in value.items()
-            if not isinstance(value, int) or value < 0
-        ]
-        if invalid_values:
-            errors.append("Values must be greater than or equal to 0")
+        for key, val in value.items():
+            if not isinstance(val, int) or val < 0:
+                errors.append("Values must be greater than or equal to 0")
+
+                break
 
         if errors:
             raise ValidationError(errors)
@@ -76,21 +73,27 @@ class CategorySerializer(serializers.DocumentSerializer):
         return value
 
     def update(self, instance, validated_data):
-        parent_name = validated_data.get("parent_name")
-        errors = {"messages": []}
+        if "parent_name" in validated_data:
+            parent_name = validated_data.get("parent_name")
 
-        if parent_name:
-            if not instance.parent_name:
-                errors.get("messages").append(
-                    "Base category cannot be assigned to existing category"
+            if parent_name:
+                parent_category = Category.objects(name=parent_name).first()
+
+                if parent_category == instance:
+                    raise ValidationError({"messages": "Category cannot be its own parent"})
+
+                if not instance.parent_name and instance.is_child(parent_category):
+                    raise ValidationError(
+                        {
+                            "messages": "Base category cannot be assigned to one of its children"
+                        }
+                    )
+
+            elif instance.parent_name and Part.objects(category=instance.name).count() > 0:
+                raise ValidationError(
+                    {
+                        "messages": "Cannot change category to a base category if there are parts assigned to that category"
+                    }
                 )
-
-            parent_category = Category.objects(name=parent_name).get()
-
-            if parent_category == instance:
-                errors.get("messages").append("Category cannot be its parent")
-
-        if errors.get("messages"):
-            raise ValidationError(errors)
 
         return super().update(instance, validated_data)

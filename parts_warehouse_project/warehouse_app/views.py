@@ -7,7 +7,6 @@ import itertools
 import json
 
 
-
 class PartViewSet(viewsets.ModelViewSet):
     queryset = Part.objects.all()
     serializer_class = PartSerializer
@@ -49,11 +48,16 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         name = request.data.get("name")
 
-        if name:
-            category = self.get_object()
+        category = self.get_object()
+        category_name = category.name
+        serializer = self.get_serializer(category, data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            children = Category.objects(parent_name=category.name).filter()
-            parts = Part.objects(category=category.name).filter()
+        self.perform_update(serializer)
+
+        if name:
+            children = Category.objects(parent_name=category_name).filter()
+            parts = Part.objects(category=category_name).filter()
 
             for child, part in itertools.zip_longest(children, parts, fillvalue=None):
                 if child:
@@ -63,7 +67,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
                     part.category = name
                     part.save()
 
-        return super().update(request, args, kwargs)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         category = self.get_object()

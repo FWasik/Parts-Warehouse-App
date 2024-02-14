@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: ./parts_warehouse_project
-    image: dilreni2137/parts-warehouse-app-web
+    image: dilreni2137/parts-warehouse-app-web:2.0
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./parts_warehouse_project/:/app
